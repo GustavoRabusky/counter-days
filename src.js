@@ -1,6 +1,12 @@
 define([], function () {
   return {
-    calculaDiferencaEntreDias: function (dataInicial, dataFinal) {
+    getDiffDias: function (dataInicial, dataFinal) {
+      if (dataFinal < dataInicial) {
+        let dataAuxiliar = dataInicial;
+        dataInicial = dataFinal;
+        dataFinal = dataAuxiliar;
+      }
+
       let diaInicio = this.pegaDia(dataInicial);
       let diaFinal = this.pegaDia(dataFinal);
       let mesInicio = this.pegaMes(dataInicial);
@@ -8,12 +14,13 @@ define([], function () {
       let anoInicial = this.pegaAno(dataInicial);
       let anoFinal = this.pegaAno(dataFinal);
 
-      if (anoInicial == anoFinal) {
-        if (mesInicio == mesFinal) {
-          dias = diaInicio - diaFinal;
-          console.log(dias);
-        }
-      }
+      let dias =
+        this.diferencaDiasEntreAnos(anoInicial, anoFinal) +
+        (this.diasEntreMes(mesFinal, anoFinal) -
+          this.diasEntreMes(mesInicio, anoInicial)) +
+        (diaFinal - diaInicio);
+
+      return dias;
     },
     pegaDia: function (date) {
       let dia = date.split("-");
@@ -28,16 +35,17 @@ define([], function () {
       return Number(ano[0]);
     },
     diferencaDiasEntreAnos: function (anoInicial, anoFinal) {
-      dias = 0;
-      diasDoAno = 365;
-      for (let ano = anoInicial + 1; ano < anoFinal; ano++) {
+      let dias = 0;
+      let diasDoAno = 365;
+      for (let ano = anoInicial; ano < anoFinal; ano++) {
         diasDoAno = 365;
         if (this.anoBissexto(ano)) {
           diasDoAno = 366;
         }
         dias += diasDoAno;
-        console.log(dias);
       }
+
+      return dias;
     },
     anoBissexto: function (ano) {
       if (ano % 400 === 0 || (ano % 100 !== 0 && ano % 4 === 0)) {
@@ -47,12 +55,11 @@ define([], function () {
     },
 
     diasEntreMes: function (mes, ano) {
-      diasMes = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      if (mes == 2 && this.anoBissexto(ano) == true) {
-        return 29;
-      } else {
-        return diasMes[mes];
+      diasMes = [0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+      if (this.anoBissexto(ano)) {
+        diasMes = [0, 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335];
       }
+      return diasMes[mes];
     },
   };
 });
