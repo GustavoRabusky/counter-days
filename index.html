@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dojo Calculadora de Dias - unit tests</title>
+
+    <!-- This css is required for the QUnit Report -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/qunit/qunit-1.14.0.css"
+    />
+  </head>
+
+  <body>
+    <!-- These two divs are required by the QUnit Report -->
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <!-- ***************** -->
+
+    <!-- Loading QUnit and dojo libraries -->
+    <script src="https://code.jquery.com/qunit/qunit-1.14.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/dojo/1.12.2/dojo/dojo.js"></script>
+
+    <!-- Run test using dojo -->
+
+    <!-- There are two ways to run tests with dojo -->
+    <!-- 1) Directly load the test file  -->
+
+    <!-- <script src="test.js"></script>  -->
+
+    <!-- 2) (Used in this example) Load it through the dojo's require api -->
+    <script type="text/javascript">
+      // Set autostart false since we're using AMD to load code asynchronously
+      QUnit.config.autostart = false;
+
+      require(["./test.js"], function (test) {
+        // Start the test using QUnit.start() after finish loading the test file
+        QUnit.start();
+      });
+    </script>
+  </body>
+</html>
